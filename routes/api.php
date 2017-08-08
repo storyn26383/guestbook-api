@@ -20,4 +20,8 @@ $app->post('login', 'AuthController@login');
 
 $app->group(['middleware' => 'auth'], function () use ($app) {
     $app->get('logout', 'AuthController@logout');
+
+    $app->post('posts', 'PostsController@store');
+    $app->put('posts/{id}', 'PostsController@update');
+    $app->delete('posts/{id}', 'PostsController@destroy');
 });

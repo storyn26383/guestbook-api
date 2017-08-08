@@ -20,3 +20,13 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
         'password' => $password ?: $password = app('hash')->make('secret'),
     ];
 });
+
+$factory->define(App\Post::class, function (Faker\Generator $faker) {
+    return [
+        'title' => $faker->sentence,
+        'content' => $faker->paragraph,
+        'user_id' => function () {
+            return factory(App\User::class)->create()->id;
+        }
+    ];
+});

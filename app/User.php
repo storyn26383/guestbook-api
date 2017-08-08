@@ -17,18 +17,19 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
      *
      * @var array
      */
-    protected $fillable = [
-        'name', 'email', 'password', 'api_token'
-    ];
+    protected $fillable = ['name', 'email', 'password', 'api_token'];
 
     /**
      * The attributes excluded from the model's JSON form.
      *
      * @var array
      */
-    protected $hidden = [
-        'password',
-    ];
+    protected $hidden = ['password'];
+
+    public function posts()
+    {
+        return $this->hasMany(Post::class);
+    }
 
     public function login()
     {
