@@ -24,4 +24,6 @@ $app->group(['middleware' => 'auth'], function () use ($app) {
     $app->post('posts', 'PostsController@store');
     $app->put('posts/{id}', 'PostsController@update');
     $app->delete('posts/{id}', 'PostsController@destroy');
+
+    $app->post('posts/{id}/reply', 'ReplyController@store');
 });
