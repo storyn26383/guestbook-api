@@ -2,10 +2,13 @@
 
 namespace App;
 
+use Kalnoy\Nestedset\NodeTrait;
 use Illuminate\Database\Eloquent\Model;
 
 class Post extends Model
 {
+    use NodeTrait;
+
     /**
      * The attributes that are mass assignable.
      *
