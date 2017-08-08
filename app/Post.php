@@ -16,6 +16,13 @@ class Post extends Model
      */
     protected $fillable = ['user_id', 'title', 'content'];
 
+    /**
+     * The attributes excluded from the model's JSON form.
+     *
+     * @var array
+     */
+    protected $hidden = ['_lft', '_rgt'];
+
     public function user()
     {
         return $this->belongsTo(User::class);

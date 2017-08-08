@@ -132,4 +132,34 @@ class PostTest extends TestCase
 
         $this->assertNotNull($post->fresh());
     }
+
+    public function testList()
+    {
+        $user = factory(User::class)->create();
+
+        $this->actingAs($user);
+
+        $post = factory(Post::class)->create();
+        $reply = factory(Post::class)->create();
+        $nestedReply = factory(Post::class)->create();
+
+        $post->appendNode($reply);
+        $reply->appendNode($nestedReply);
+
+        $this->json('get', "/api/posts");
+
+        $this->assertArraySubset([[
+            'title' => $post->title,
+            'content' => $post->content,
+            'children' => [[
+                'title' => $reply->title,
+                'content' => $reply->content,
+                'children' => [[
+                    'title' => $nestedReply->title,
+                    'content' => $nestedReply->content,
+                    'children' => []
+                ]],
+            ]],
+        ]], $this->response->getOriginalContent()->toArray());
+    }
 }
