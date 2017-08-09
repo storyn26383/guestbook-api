@@ -9,7 +9,11 @@ class PostsController extends Controller
 {
     public function index()
     {
-        return Post::with('user')->get()->toTree();
+        return Post::with('user')->get()->map(function ($post) {
+            $post->user->setVisible(['name', 'email']);
+
+            return $post;
+        })->toTree();
     }
 
     public function store(Request $request)

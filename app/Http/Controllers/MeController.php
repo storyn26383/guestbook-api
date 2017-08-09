@@ -9,6 +9,6 @@ class MeController extends Controller
 {
     public function index(Request $request)
     {
-        return array_intersect_key($request->user()->toArray(), array_flip(['name', 'email']));
+        return $request->user()->setVisible(['name', 'email']);
     }
 }
