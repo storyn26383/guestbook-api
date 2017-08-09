@@ -10,7 +10,6 @@ class ReplyController extends Controller
     public function store($id, Request $request)
     {
         $this->validate($request, [
-            'title' => 'required',
             'content' => 'required',
         ]);
 

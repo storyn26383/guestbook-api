@@ -19,7 +19,6 @@ class PostTest extends TestCase
         $this->actingAs($user);
 
         $post = [
-            'title' => 'Hello World',
             'content' => 'Hello World',
         ];
 
@@ -37,7 +36,6 @@ class PostTest extends TestCase
 
         $this->json('post', '/api/posts')
              ->seeJson([
-                 'title' => ['The title field is required.'],
                  'content' => ['The content field is required.'],
              ]);
 
@@ -60,12 +58,12 @@ class PostTest extends TestCase
 
         $this->actingAs($user);
 
-        $title = 'Hello World';
+        $content = 'Hello World';
 
-        $this->json('put', "/api/posts/{$post->id}", compact('title'))
+        $this->json('put', "/api/posts/{$post->id}", compact('content'))
              ->seeJson(['success' => true]);
 
-        $this->assertEquals($title, $post->fresh()->title);
+        $this->assertEquals($content, $post->fresh()->content);
     }
 
     public function testUpdateWithoutParams()
@@ -78,8 +76,7 @@ class PostTest extends TestCase
 
         $this->json('put', "/api/posts/{$post->id}")
              ->seeJson([
-                 'title' => ['The title field is required when content is .'],
-                 'content' => ['The content field is required when title is .'],
+                 'content' => ['The content field is required.'],
              ]);
 
         $this->assertEquals(422, $this->response->getStatusCode());
@@ -93,14 +90,14 @@ class PostTest extends TestCase
 
         $this->actingAs($user);
 
-        $title = 'Hello World';
+        $content = 'Hello World';
 
-        $this->json('put', "/api/posts/{$post->id}", compact('title'))
+        $this->json('put', "/api/posts/{$post->id}", compact('content'))
              ->seeJson(['error' => ['message' => 'Unauthorized.']]);
 
         $this->assertEquals(401, $this->response->getStatusCode());
 
-        $this->assertNotEquals($title, $post->fresh()->title);
+        $this->assertNotEquals($content, $post->fresh()->content);
     }
 
     public function testDelete()
@@ -149,13 +146,10 @@ class PostTest extends TestCase
         $this->json('get', "/api/posts");
 
         $this->assertArraySubset([[
-            'title' => $post->title,
             'content' => $post->content,
             'children' => [[
-                'title' => $reply->title,
                 'content' => $reply->content,
                 'children' => [[
-                    'title' => $nestedReply->title,
                     'content' => $nestedReply->content,
                     'children' => []
                 ]],

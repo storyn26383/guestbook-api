@@ -19,7 +19,6 @@ class PostsController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'title' => 'required',
             'content' => 'required',
         ]);
 
@@ -31,8 +30,7 @@ class PostsController extends Controller
     public function update($id, Request $request)
     {
         $this->validate($request, [
-            'title' => 'required_if:content,',
-            'content' => 'required_if:title,',
+            'content' => 'required',
         ]);
 
         $post = Post::findOrFail($id);

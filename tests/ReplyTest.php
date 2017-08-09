@@ -21,7 +21,6 @@ class ReplyTest extends TestCase
         $this->actingAs($user);
 
         $reply = [
-            'title' => 'Hello World',
             'content' => 'Hello World',
         ];
 
@@ -30,10 +29,7 @@ class ReplyTest extends TestCase
 
         $this->seeInDatabase('posts', $reply);
 
-        $this->assertEquals(
-            $reply,
-            array_intersect_key($post->children()->first()->toArray(), array_flip(['title', 'content']))
-        );
+        $this->assertEquals($reply['content'], $post->children()->first()->content);
     }
 
     public function testReplyWithoutLogin()
@@ -56,7 +52,6 @@ class ReplyTest extends TestCase
 
         $this->json('post', "/api/posts/{$post->id}/reply")
              ->seeJson([
-                 'title' => ['The title field is required.'],
                  'content' => ['The content field is required.'],
              ]);
 
