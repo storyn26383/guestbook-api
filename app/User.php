@@ -18,7 +18,7 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
      * @var array
      */
     protected $fillable = [
-        'name', 'email',
+        'name', 'email', 'password', 'api_token'
     ];
 
     /**
@@ -29,4 +29,18 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
     protected $hidden = [
         'password',
     ];
+
+    public function login()
+    {
+        $this->update(['api_token' => str_random(40)]);
+
+        return $this;
+    }
+
+    public function logout()
+    {
+        $this->update(['api_token' => null]);
+
+        return $this;
+    }
 }

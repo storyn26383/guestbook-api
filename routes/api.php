@@ -12,5 +12,12 @@
 */
 
 $app->get('/', function () use ($app) {
-    return $app->version();
+    abort(503);
+});
+
+$app->post('register', 'AuthController@register');
+$app->post('login', 'AuthController@login');
+
+$app->group(['middleware' => 'auth'], function () use ($app) {
+    $app->get('logout', 'AuthController@logout');
 });
