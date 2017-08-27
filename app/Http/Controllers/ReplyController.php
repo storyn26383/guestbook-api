@@ -15,8 +15,8 @@ class ReplyController extends Controller
 
         $post = Post::findOrFail($id);
 
-        $post->children()->create(array_merge($request->all(), ['user_id' => $request->user()->id]));
+        $reply = $post->children()->create(array_merge($request->all(), ['user_id' => $request->user()->id]));
 
-        return ['success' => true];
+        return ['id' => $reply->id];
     }
 }

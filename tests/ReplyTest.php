@@ -25,7 +25,7 @@ class ReplyTest extends TestCase
         ];
 
         $this->json('post', "/api/posts/{$post->id}/reply", $reply)
-             ->seeJson(['success' => true]);
+             ->seeJsonStructure(['id']);
 
         $this->seeInDatabase('posts', $reply);
 

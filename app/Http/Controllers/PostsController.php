@@ -22,9 +22,9 @@ class PostsController extends Controller
             'content' => 'required',
         ]);
 
-        $request->user()->posts()->create($request->all());
+        $post = $request->user()->posts()->create($request->all());
 
-        return ['success' => true];
+        return ['id' => $post->id];
     }
 
     public function update($id, Request $request)

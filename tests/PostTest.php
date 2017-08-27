@@ -23,7 +23,7 @@ class PostTest extends TestCase
         ];
 
         $this->json('post', '/api/posts', $post)
-             ->seeJson(['success' => true]);
+             ->seeJsonStructure(['id']);
 
         $this->seeInDatabase('posts', $post);
     }
