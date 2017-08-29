@@ -1,0 +1,20 @@
+0.0.0.0:8000, [::]:8000 {
+    tls off
+
+    log stdout
+
+    root public
+
+    fastcgi / 127.0.0.1:9000 php {
+        path /api
+    }
+
+    rewrite /api/ {
+        to {path} {path}/ /index.php?{query}
+    }
+
+    proxy / 127.0.0.1:3000 {
+        except /index.php
+        transparent
+    }
+}
